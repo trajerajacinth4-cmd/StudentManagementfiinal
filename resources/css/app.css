@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Custom CSS Functions & Utility Definitions */
+
+/* 1. Fluid Typography & Spacing CSS Functions using clamp() */
+@utility text-fluid-sm {
+    font-size: clamp(0.8rem, 0.75rem + 0.25vw, 0.95rem);
+}
+
+@utility text-fluid-base {
+    font-size: clamp(1rem, 0.95rem + 0.35vw, 1.2rem);
+}
+
+@utility text-fluid-lg {
+    font-size: clamp(1.25rem, 1.15rem + 0.6vw, 1.75rem);
+}
+
+@utility text-fluid-xl {
+    font-size: clamp(1.75rem, 1.5rem + 1.2vw, 2.5rem);
+}
+
+@utility padding-fluid {
+    padding: clamp(0.75rem, 0.5rem + 1vw, 2rem);
+}
+
+/* 2. Glassmorphism & Surface Color-Blending Functions using color-mix() */
+@utility glass-panel {
+    background: color-mix(in srgb, var(--color-white, #ffffff) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-slate-200, #e2e8f0) 60%, transparent);
+}
+
+@utility glass-panel-dark {
+    background: color-mix(in srgb, var(--color-slate-900, #0f172a) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-slate-700, #334155) 50%, transparent);
+}
+
+@utility text-gradient-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 3. Component Style Helper Functions */
+@utility btn-interactive {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+    }
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+@utility badge-status-active {
+    background-color: color-mix(in srgb, #22c55e 15%, transparent);
+    color: #15803d;
+    border: 1px solid color-mix(in srgb, #22c55e 30%, transparent);
+}
+
+@utility badge-status-inactive {
+    background-color: color-mix(in srgb, #ef4444 15%, transparent);
+    color: #b91c1c;
+    border: 1px solid color-mix(in srgb, #ef4444 30%, transparent);
+}
+
+@utility custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: color-mix(in srgb, var(--color-slate-100, #f1f5f9) 50%, transparent);
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--color-slate-400, #94a3b8) 60%, transparent);
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--color-indigo-500, #6366f1);
+    }
+}
+
