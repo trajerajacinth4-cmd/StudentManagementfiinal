@@ -14,18 +14,32 @@
     </div>
 
     <!-- Sidebar Navigation Menu -->
-    <div class="sidebar-body py-3">
-        <div class="px-3 mb-2 sidebar-label text-uppercase text-white-50 fw-bold small tracking-wider">
-            <span>Navigation</span>
+    <div class="sidebar-body py-3 flex-grow-1 overflow-auto">
+        @auth
+        <!-- Main Navigation -->
+        <div class="px-3 mb-1 sidebar-label text-uppercase text-white-50 fw-bold small tracking-wider">
+            <span>Main</span>
         </div>
-        <ul class="nav nav-pills flex-column px-2 gap-1">
+        <ul class="nav nav-pills flex-column px-2 gap-1 mb-3">
             <li class="nav-item">
                 <a href="{{ url('/') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->is('/') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
                     <i class="bi bi-house-door-fill icon-md text-center flex-shrink-0"></i>
                     <span class="nav-text text-nowrap">Home</span>
                 </a>
             </li>
-            @auth
+            <li class="nav-item">
+                <a href="{{ route('dashboard') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('dashboard') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                    <i class="bi bi-speedometer2 icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Dashboard</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Students Section -->
+        <div class="px-3 mb-1 sidebar-label text-uppercase text-white-50 fw-bold small tracking-wider">
+            <span>Students</span>
+        </div>
+        <ul class="nav nav-pills flex-column px-2 gap-1 mb-3">
             <li class="nav-item">
                 <a href="{{ route('students.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('students.index') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Student Directory">
                     <i class="bi bi-people-fill icon-md text-center flex-shrink-0"></i>
@@ -39,24 +53,74 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('students.honor-roll') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('students.honor-roll') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Honor Roll">
+                    <i class="bi bi-trophy-fill icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Honor Roll</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Academic Section -->
+        <div class="px-3 mb-1 sidebar-label text-uppercase text-white-50 fw-bold small tracking-wider">
+            <span>Academic</span>
+        </div>
+        <ul class="nav nav-pills flex-column px-2 gap-1 mb-3">
+            <li class="nav-item">
                 <a href="{{ route('courses.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('courses.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Manage Courses">
                     <i class="bi bi-book-fill icon-md text-center flex-shrink-0"></i>
                     <span class="nav-text text-nowrap">Courses</span>
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('subjects.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('subjects.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Subjects">
+                    <i class="bi bi-journal-bookmark-fill icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Subjects</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('semesters.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('semesters.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Semesters">
+                    <i class="bi bi-calendar3 icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Semesters</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('enrollments.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('enrollments.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Enrollments">
+                    <i class="bi bi-person-check-fill icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Enrollments</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('grades.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('grades.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Grade Records">
+                    <i class="bi bi-journal-richtext icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Grades</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('attendance.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('attendance.*') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="Attendance">
+                    <i class="bi bi-calendar-check-fill icon-md text-center flex-shrink-0"></i>
+                    <span class="nav-text text-nowrap">Attendance</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- System Section -->
+        <div class="px-3 mb-1 sidebar-label text-uppercase text-white-50 fw-bold small tracking-wider">
+            <span>System</span>
+        </div>
+        <ul class="nav nav-pills flex-column px-2 gap-1">
+            <li class="nav-item">
                 <a href="{{ route('activity-logs.index') }}" class="nav-link d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('activity-logs.index') ? 'active bg-indigo text-white fw-semibold' : 'text-white-50 hover-bg-light' }}" data-bs-toggle="tooltip" data-bs-placement="right" title="System Audit Logs">
                     <i class="bi bi-journal-text icon-md text-center flex-shrink-0"></i>
                     <span class="nav-text text-nowrap">Activity Logs</span>
                 </a>
             </li>
-            @endauth
         </ul>
+        @endauth
     </div>
 
     <!-- Sidebar Footer / User Profile -->
     @auth
-    <div class="sidebar-footer mt-auto p-3 border-top border-secondary border-opacity-25">
+    <div class="sidebar-footer p-3 border-top border-secondary border-opacity-25">
         <div class="d-flex align-items-center justify-content-between gap-2 user-profile-box">
             <div class="d-flex align-items-center gap-2.5 overflow-hidden">
                 <div class="icon-shape-sm bg-info text-dark rounded-circle flex-shrink-0">

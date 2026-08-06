@@ -59,4 +59,19 @@ class Student extends Model
      * Standard list of allowed student statuses.
      */
     public static array $statuses = ['Active', 'Graduated', 'Dropped', 'On Leave'];
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }

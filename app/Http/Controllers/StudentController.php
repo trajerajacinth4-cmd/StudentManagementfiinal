@@ -297,6 +297,10 @@ class StudentController extends Controller
             $validated['avatar'] = $path;
         }
 
+        // Auto-compute full name for raw database compatibility
+        $nameParts = array_filter([$validated['first_name'], $validated['middle_name'] ?? null, $validated['last_name']]);
+        $validated['name'] = implode(' ', $nameParts);
+
         $student = Student::create($validated);
 
         ActivityLog::log('CREATE_STUDENT', "Created student record for {$student->name} ({$student->student_number}).");
@@ -305,11 +309,72 @@ class StudentController extends Controller
     }
 
     /**
-     * Display student details.
+     * Display full student profile with grades and attendance.
      */
     public function show(Student $student)
     {
-        return view('students.show', compact('student'));
+        $grades = $student->grades()->with(['subject', 'semester'])->latest()->get();
+        $attendances = $student->attendances()->latest()->take(30)->get();
+        $enrollments = $student->enrollments()->with(['semester', 'subjects'])->latest()->get();
+
+        $presentCount = $student->attendances()->where('status', 'Present')->count();
+        $absentCount  = $student->attendances()->where('status', 'Absent')->count();
+        $lateCount    = $student->attendances()->where('status', 'Late')->count();
+
+        return view('students.show', compact(
+            'student', 'grades', 'attendances', 'enrollments',
+            'presentCount', 'absentCount', 'lateCount'
+        ));
+    }
+
+    /**
+     * Honor Roll — students with GPA above threshold.
+     */
+    public function honorRoll(Request $request)
+    {
+        $gpaThreshold = $request->query('gpa', 1.75);
+        $yearLevel = $request->query('year_level');
+
+        $query = Student::where('status', 'Active')
+            ->whereNotNull('gpa')
+            ->where('gpa', '<=', $gpaThreshold)
+            ->orderBy('gpa');
+
+        if ($yearLevel && in_array($yearLevel, self::$yearLevels)) {
+            $query->where('year_level', $yearLevel);
+        }
+
+        $students = $query->get();
+
+        return view('students.honor_roll', [
+            'students'     => $students,
+            'gpaThreshold' => $gpaThreshold,
+            'yearLevels'   => self::$yearLevels,
+            'yearLevel'    => $yearLevel,
+        ]);
+    }
+
+    /**
+     * Generate individual student profile PDF.
+     */
+    public function profilePdf(Student $student)
+    {
+        $grades      = $student->grades()->with(['subject', 'semester'])->get();
+        $attendances = $student->attendances()->orderByDesc('date')->get();
+        $enrollments = $student->enrollments()->with(['semester', 'subjects'])->get();
+
+        $presentCount = $student->attendances()->where('status', 'Present')->count();
+        $absentCount  = $student->attendances()->where('status', 'Absent')->count();
+        $lateCount    = $student->attendances()->where('status', 'Late')->count();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('students.profile_pdf', compact(
+            'student', 'grades', 'attendances', 'enrollments',
+            'presentCount', 'absentCount', 'lateCount'
+        ));
+
+        ActivityLog::log('PROFILE_PDF', "Downloaded profile PDF for {$student->name}.");
+
+        return $pdf->download('profile_' . str_replace(' ', '_', $student->name) . '.pdf');
     }
 
     /**
@@ -341,6 +406,10 @@ class StudentController extends Controller
             $path = $request->file('avatar')->store('avatars', 'public');
             $validated['avatar'] = $path;
         }
+
+        // Auto-compute full name for raw database compatibility
+        $nameParts = array_filter([$validated['first_name'], $validated['middle_name'] ?? null, $validated['last_name']]);
+        $validated['name'] = implode(' ', $nameParts);
 
         $student->update($validated);
 
@@ -426,3 +495,4 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', "Successfully promoted {$promotedCount} students.");
     }
 }
+
