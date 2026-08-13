@@ -305,6 +305,19 @@ class StudentController extends Controller
 
         ActivityLog::log('CREATE_STUDENT', "Created student record for {$student->name} ({$student->student_number}).");
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success'  => true,
+                'message'  => "Student '{$student->name}' created successfully.",
+                'student'  => [
+                    'id'             => $student->id,
+                    'name'           => $student->name,
+                    'student_number' => $student->student_number,
+                ],
+                'redirect' => route('students.index'),
+            ]);
+        }
+
         return redirect()->route('students.index')->with('success', "Student '{$student->name}' created successfully.");
     }
 

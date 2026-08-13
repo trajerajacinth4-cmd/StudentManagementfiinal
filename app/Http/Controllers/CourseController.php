@@ -13,9 +13,17 @@ class CourseController extends Controller
     /**
      * Display a listing of managed courses.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::latest()->paginate(10);
+        $courses = Course::latest()->get();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'data'    => $courses,
+                'count'   => $courses->count()
+            ]);
+        }
 
         return view('courses.index', compact('courses'));
     }
@@ -37,7 +45,30 @@ class CourseController extends Controller
 
         ActivityLog::log('CREATE_COURSE', "Created course '{$course->code} - {$course->name}'.");
 
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Course '{$course->code}' created successfully.",
+                'data'    => $course
+            ], 201);
+        }
+
         return redirect()->route('courses.index')->with('success', "Course '{$course->code}' created successfully.");
+    }
+
+    /**
+     * Display the specified course.
+     */
+    public function show(Course $course, Request $request)
+    {
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'data'    => $course
+            ]);
+        }
+
+        return response()->json($course);
     }
 
     /**
@@ -57,18 +88,35 @@ class CourseController extends Controller
 
         ActivityLog::log('UPDATE_COURSE', "Updated course '{$course->code}'.");
 
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Course '{$course->code}' updated successfully.",
+                'data'    => $course
+            ]);
+        }
+
         return redirect()->route('courses.index')->with('success', "Course '{$course->code}' updated successfully.");
     }
 
     /**
      * Remove the specified course from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Request $request, Course $course)
     {
         $code = $course->code;
+        $id   = $course->id;
         $course->delete();
 
         ActivityLog::log('DELETE_COURSE', "Deleted course '{$code}'.");
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Course '{$code}' deleted successfully.",
+                'id'      => $id
+            ]);
+        }
 
         return redirect()->route('courses.index')->with('success', "Course '{$code}' deleted successfully.");
     }

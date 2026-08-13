@@ -65,10 +65,13 @@ class StudentTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/students', [
+            'first_name' => 'Alice',
+            'last_name' => 'Green',
             'name' => 'Alice Green',
             'email' => 'alice@example.com',
             'course' => 'Mathematics',
             'year_level' => '2nd Year',
+            'status' => 'Active',
             'age' => 19,
         ]);
 

@@ -1,42 +1,53 @@
 <!-- Topbar Header -->
-<header class="topbar bg-white border-bottom sticky-top py-2 px-3 shadow-xs">
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <!-- Sidebar Toggle Button (Mobile & Desktop) -->
-            <button type="button" class="btn btn-light border-0 p-2 d-flex align-items-center justify-content-center rounded-3 shadow-none" id="topbarSidebarToggle" title="Toggle Sidebar Navigation">
+<header class="topbar bg-white border-bottom sticky-top py-2 px-3 px-md-4" style="z-index:1035;">
+    <div class="d-flex align-items-center justify-content-between gap-3">
+
+        {{-- Left: Sidebar toggle + Page title --}}
+        <div class="d-flex align-items-center gap-3 min-w-0">
+            <button type="button"
+                    class="btn btn-light border-0 p-2 d-flex align-items-center justify-content-center rounded-3 shadow-none flex-shrink-0"
+                    id="topbarSidebarToggle"
+                    title="Toggle Sidebar (Ctrl+B)">
                 <i class="bi bi-list icon-lg text-dark"></i>
             </button>
 
-            <!-- Breadcrumb / System Context -->
-            <div class="d-none d-sm-block">
-                <span class="badge bg-indigo-subtle text-primary fw-semibold px-2.5 py-1 rounded-pill small">
-                    <i class="bi bi-shield-check me-1"></i> Student Management System
-                </span>
+            {{-- Dynamic page title based on current route --}}
+            <div class="d-none d-sm-flex align-items-center gap-2 min-w-0">
+                @php
+                    $pageInfo = match(true) {
+                        request()->routeIs('dashboard')          => ['icon' => 'bi-speedometer2',          'label' => 'Dashboard',      'color' => '#4f46e5'],
+                        request()->routeIs('students.index')     => ['icon' => 'bi-people-fill',           'label' => 'Student Directory','color' => '#0891b2'],
+                        request()->routeIs('students.create')    => ['icon' => 'bi-person-plus-fill',      'label' => 'Add Student',    'color' => '#059669'],
+                        request()->routeIs('students.edit')      => ['icon' => 'bi-pencil-square',         'label' => 'Edit Student',   'color' => '#d97706'],
+                        request()->routeIs('students.show')      => ['icon' => 'bi-person-lines-fill',     'label' => 'Student Profile','color' => '#7c3aed'],
+                        request()->routeIs('students.honor-roll')=> ['icon' => 'bi-trophy-fill',           'label' => 'Honor Roll',     'color' => '#ca8a04'],
+                        request()->routeIs('courses.*')          => ['icon' => 'bi-book-fill',             'label' => 'Courses',        'color' => '#4f46e5'],
+                        request()->routeIs('subjects.*')         => ['icon' => 'bi-journal-bookmark-fill', 'label' => 'Subjects',       'color' => '#7c3aed'],
+                        request()->routeIs('semesters.*')        => ['icon' => 'bi-calendar3',             'label' => 'Semesters',      'color' => '#0891b2'],
+                        request()->routeIs('enrollments.*')      => ['icon' => 'bi-person-check-fill',     'label' => 'Enrollments',    'color' => '#059669'],
+                        request()->routeIs('grades.*')           => ['icon' => 'bi-journal-richtext',      'label' => 'Grades',         'color' => '#d97706'],
+                        request()->routeIs('attendance.*')       => ['icon' => 'bi-calendar-check-fill',   'label' => 'Attendance',     'color' => '#dc2626'],
+                        request()->routeIs('activity-logs.*')    => ['icon' => 'bi-journal-text',          'label' => 'Activity Logs',  'color' => '#475569'],
+                        default                                  => ['icon' => 'bi-mortarboard-fill',       'label' => 'StudentApp',     'color' => '#4f46e5'],
+                    };
+                @endphp
+                <i class="bi {{ $pageInfo['icon'] }} icon-md" style="color: {{ $pageInfo['color'] }};"></i>
+                <span class="fw-semibold text-dark text-truncate" style="font-size:.9rem;">{{ $pageInfo['label'] }}</span>
             </div>
         </div>
 
-        @auth
-        <div class="d-flex align-items-center gap-3">
-            <!-- User Welcome Badge -->
-            <div class="d-flex align-items-center gap-2 bg-light px-3 py-1.5 rounded-pill border">
-                <i class="bi bi-person-circle text-primary icon-md"></i>
-                <span class="small">Welcome, <strong class="text-dark">{{ Auth::user()->name }}</strong></span>
+        {{-- Right: System badge + User info (compact) --}}
+        <div class="d-flex align-items-center gap-2 flex-shrink-0">
+            <span class="badge bg-indigo-subtle text-primary fw-semibold px-2 py-1 rounded-pill small d-none d-md-inline-flex align-items-center gap-1">
+                <i class="bi bi-shield-check me-1"></i> SMS
+            </span>
+            @auth
+            <div class="d-flex align-items-center gap-1 px-2 py-1 rounded-pill border bg-light small">
+                <i class="bi bi-person-circle text-primary icon-sm"></i>
+                <span class="d-none d-md-inline text-dark fw-semibold">{{ Auth::user()->name }}</span>
             </div>
-
-            <!-- Logout Button -->
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger btn-sm px-3 rounded-pill d-flex align-items-center gap-1.5 shadow-sm">
-                    <i class="bi bi-box-arrow-right icon-sm"></i> Log Out
-                </button>
-            </form>
+            @endauth
         </div>
-        @else
-        <div>
-            <a href="{{ route('login') }}" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm">
-                <i class="bi bi-box-arrow-in-right me-1"></i> Admin Login
-            </a>
-        </div>
-        @endauth
     </div>
 </header>
+

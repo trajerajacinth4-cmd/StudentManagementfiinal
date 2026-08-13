@@ -61,12 +61,38 @@ class DashboardController extends Controller
         $todayAbsent = Attendance::where('date', $today)->where('status', 'Absent')->count();
         $todayLate = Attendance::where('date', $today)->where('status', 'Late')->count();
 
+        // All students for client-side filtering (year-level interactive filter)
+        $allStudents = Student::orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn($s) => [
+                'id'             => $s->id,
+                'name'           => $s->name,
+                'student_number' => $s->student_number,
+                'course'         => $s->course ?? '—',
+                'year_level'     => $s->year_level ?? '—',
+                'status'         => $s->status,
+                'gpa'            => $s->gpa,
+                'avatar_url'     => $s->avatar_url,
+                'created_at'     => $s->created_at,
+            ]);
+
+        // Courses list for filter dropdown / buttons
+        $coursesList = Student::whereNotNull('course')
+            ->where('course', '!=', '')
+            ->distinct()
+            ->pluck('course')
+            ->sort()
+            ->values();
+
         return view('dashboard.index', compact(
             'totalStudents', 'activeStudents', 'graduatedStudents', 'droppedStudents',
             'yearLevelData', 'courseData', 'statusData',
             'averageGpa', 'topStudents', 'recentStudents',
             'totalCourses', 'activeSemester',
-            'todayPresent', 'todayAbsent', 'todayLate'
+            'todayPresent', 'todayAbsent', 'todayLate',
+            'allStudents', 'coursesList'
         ));
     }
 }
+
+
