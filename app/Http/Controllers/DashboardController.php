@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Grade;
-use App\Models\Attendance;
 use App\Models\Enrollment;
 use App\Models\Semester;
 
@@ -55,12 +54,6 @@ class DashboardController extends Controller
         // Active semester
         $activeSemester = Semester::active();
 
-        // Attendance overview for today
-        $today = now()->toDateString();
-        $todayPresent = Attendance::where('date', $today)->where('status', 'Present')->count();
-        $todayAbsent = Attendance::where('date', $today)->where('status', 'Absent')->count();
-        $todayLate = Attendance::where('date', $today)->where('status', 'Late')->count();
-
         // All students for client-side filtering (year-level interactive filter)
         $allStudents = Student::orderBy('created_at', 'desc')
             ->get()
@@ -89,7 +82,6 @@ class DashboardController extends Controller
             'yearLevelData', 'courseData', 'statusData',
             'averageGpa', 'topStudents', 'recentStudents',
             'totalCourses', 'activeSemester',
-            'todayPresent', 'todayAbsent', 'todayLate',
             'allStudents', 'coursesList'
         ));
     }

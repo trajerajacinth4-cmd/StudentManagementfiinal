@@ -77,39 +77,12 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ route('students.honor-roll') }}" class="text-decoration-none flex-grow-1" style="min-width:100px; border-right: 1px solid #f1f5f9;">
+            <a href="{{ route('students.honor-roll') }}" class="text-decoration-none flex-grow-1" style="min-width:100px;">
                 <div class="d-flex align-items-center gap-2 px-3 py-2 h-100" onmouseenter="this.style.background='#f8fafc'" onmouseleave="this.style.background=''">
                     <i class="bi bi-star-fill text-warning" style="font-size:.9rem;"></i>
                     <div>
                         <div class="fw-bold text-dark lh-1" style="font-size:1.05rem;" id="statAvgGpa">{{ $averageGpa ? number_format($averageGpa,2) : '—' }}</div>
                         <div class="text-muted lh-1 mt-1" style="font-size:.68rem;">Avg GPA</div>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ route('attendance.index') }}" class="text-decoration-none flex-grow-1" style="min-width:100px; border-right: 1px solid #f1f5f9;">
-                <div class="d-flex align-items-center gap-2 px-3 py-2 h-100" onmouseenter="this.style.background='#f8fafc'" onmouseleave="this.style.background=''">
-                    <i class="bi bi-check-circle-fill text-success" style="font-size:.9rem;"></i>
-                    <div>
-                        <div class="fw-bold text-dark lh-1" style="font-size:1.05rem;">{{ $todayPresent }}</div>
-                        <div class="text-muted lh-1 mt-1" style="font-size:.68rem;">Present</div>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ route('attendance.index') }}" class="text-decoration-none flex-grow-1" style="min-width:100px; border-right: 1px solid #f1f5f9;">
-                <div class="d-flex align-items-center gap-2 px-3 py-2 h-100" onmouseenter="this.style.background='#f8fafc'" onmouseleave="this.style.background=''">
-                    <i class="bi bi-x-circle-fill text-danger" style="font-size:.9rem;"></i>
-                    <div>
-                        <div class="fw-bold text-dark lh-1" style="font-size:1.05rem;">{{ $todayAbsent }}</div>
-                        <div class="text-muted lh-1 mt-1" style="font-size:.68rem;">Absent</div>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ route('attendance.index') }}" class="text-decoration-none flex-grow-1" style="min-width:100px;">
-                <div class="d-flex align-items-center gap-2 px-3 py-2 h-100" onmouseenter="this.style.background='#f8fafc'" onmouseleave="this.style.background=''">
-                    <i class="bi bi-clock-fill text-warning" style="font-size:.9rem;"></i>
-                    <div>
-                        <div class="fw-bold text-dark lh-1" style="font-size:1.05rem;">{{ $todayLate }}</div>
-                        <div class="text-muted lh-1 mt-1" style="font-size:.68rem;">Late</div>
                     </div>
                 </div>
             </a>

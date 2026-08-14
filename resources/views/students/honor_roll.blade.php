@@ -13,9 +13,16 @@
             <p class="text-muted small mb-0">Students achieving GPA ≤ {{ $gpaThreshold }} (lower is better in Philippine grading)</p>
         </div>
     </div>
-    <a href="{{ route('students.honor-roll', ['gpa' => $gpaThreshold]) }}" class="btn btn-outline-warning shadow-sm d-flex align-items-center gap-1.5">
-        <i class="bi bi-download icon-sm"></i> Export List
-    </a>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-outline-secondary shadow-sm d-flex align-items-center gap-1.5"
+                onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); } else { window.location.href='{{ route('students.index') }}'; }"
+                title="Return to Recent Page">
+            <i class="bi bi-arrow-left icon-sm"></i> Return
+        </button>
+        <a href="{{ route('students.honor-roll', ['gpa' => $gpaThreshold]) }}" class="btn btn-outline-warning shadow-sm d-flex align-items-center gap-1.5">
+            <i class="bi bi-download icon-sm"></i> Export List
+        </a>
+    </div>
 </div>
 
 <!-- Filter Bar -->

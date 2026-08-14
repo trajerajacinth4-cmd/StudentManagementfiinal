@@ -5,10 +5,21 @@
         {{-- Left: Sidebar toggle + Page title --}}
         <div class="d-flex align-items-center gap-3 min-w-0">
             <button type="button"
-                    class="btn btn-light border-0 p-2 d-flex align-items-center justify-content-center rounded-3 shadow-none flex-shrink-0"
+                    class="btn btn-light border-0 p-2 d-none d-md-none d-lg-none align-items-center justify-content-center rounded-3 shadow-none flex-shrink-0"
                     id="topbarSidebarToggle"
-                    title="Toggle Sidebar (Ctrl+B)">
+                    title="Toggle Sidebar (Ctrl+B)"
+                    style="display: none !important;">
                 <i class="bi bi-list icon-lg text-dark"></i>
+            </button>
+
+            {{-- Return to Recent Page Button --}}
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary border d-flex align-items-center gap-1.5 px-2.5 py-1 rounded-3 shadow-none flex-shrink-0"
+                    id="topbarReturnBtn"
+                    onclick="if (document.referrer && document.referrer !== window.location.href) { window.history.back(); } else { window.location.href='{{ url()->previous() }}'; }"
+                    title="Return to Recent Page">
+                <i class="bi bi-arrow-left icon-sm"></i>
+                <span class="d-none d-sm-inline small fw-semibold">Return</span>
             </button>
 
             {{-- Dynamic page title based on current route --}}
@@ -26,7 +37,6 @@
                         request()->routeIs('semesters.*')        => ['icon' => 'bi-calendar3',             'label' => 'Semesters',      'color' => '#0891b2'],
                         request()->routeIs('enrollments.*')      => ['icon' => 'bi-person-check-fill',     'label' => 'Enrollments',    'color' => '#059669'],
                         request()->routeIs('grades.*')           => ['icon' => 'bi-journal-richtext',      'label' => 'Grades',         'color' => '#d97706'],
-                        request()->routeIs('attendance.*')       => ['icon' => 'bi-calendar-check-fill',   'label' => 'Attendance',     'color' => '#dc2626'],
                         request()->routeIs('activity-logs.*')    => ['icon' => 'bi-journal-text',          'label' => 'Activity Logs',  'color' => '#475569'],
                         default                                  => ['icon' => 'bi-mortarboard-fill',       'label' => 'StudentApp',     'color' => '#4f46e5'],
                     };

@@ -4,9 +4,16 @@
 <div class="row justify-content-center"><div class="col-md-7">
 <div class="card card-custom border-0 overflow-hidden">
     <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #16a34a, #15803d);">
-        <div class="d-flex align-items-center gap-3">
-            <div class="icon-shape bg-white bg-opacity-20 text-white"><i class="bi bi-person-check-fill icon-lg"></i></div>
-            <div><h4 class="mb-0 fw-bold">Enroll Student</h4><small class="opacity-75">Register a student for a semester</small></div>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-shape bg-white bg-opacity-20 text-white"><i class="bi bi-person-check-fill icon-lg"></i></div>
+                <div><h4 class="mb-0 fw-bold">Enroll Student</h4><small class="opacity-75">Register a student for a semester</small></div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-light border-0 opacity-90 opacity-100-hover px-3 py-1.5 rounded-pill shadow-none"
+                    onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); } else { window.location.href='{{ route('enrollments.index') }}'; }"
+                    title="Return to Recent Page">
+                <i class="bi bi-arrow-left me-1"></i> Return
+            </button>
         </div>
     </div>
     <div class="card-body p-4">
@@ -67,7 +74,7 @@
             </div>
 
             <div class="d-flex justify-content-between pt-3 border-top">
-                <a href="{{ route('enrollments.index') }}" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancel</a>
+                <a href="{{ route('enrollments.index') }}" onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancel / Return</a>
                 <button type="submit" class="btn btn-success px-4 shadow-sm"><i class="bi bi-check-circle-fill me-1"></i>Enroll Student</button>
             </div>
         </form>

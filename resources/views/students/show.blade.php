@@ -35,35 +35,17 @@
                 <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-light rounded-pill shadow-sm d-flex align-items-center gap-1">
                     <i class="bi bi-pencil-square icon-sm text-warning"></i> Edit
                 </a>
-                <a href="{{ route('students.index') }}" class="btn btn-sm btn-light rounded-pill shadow-sm d-flex align-items-center gap-1">
-                    <i class="bi bi-arrow-left icon-sm"></i> Back
+                <a href="{{ route('students.index') }}"
+                   onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }"
+                   class="btn btn-sm btn-light rounded-pill shadow-sm d-flex align-items-center gap-1">
+                    <i class="bi bi-arrow-left icon-sm"></i> Return
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Attendance Summary Row -->
-<div class="row g-3 mb-4">
-    <div class="col-sm-4">
-        <div class="card card-custom border-0 text-center py-3">
-            <div class="fw-bold fs-2 text-success">{{ $presentCount }}</div>
-            <div class="small text-muted"><i class="bi bi-check-circle-fill text-success me-1"></i>Present</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card card-custom border-0 text-center py-3">
-            <div class="fw-bold fs-2 text-danger">{{ $absentCount }}</div>
-            <div class="small text-muted"><i class="bi bi-x-circle-fill text-danger me-1"></i>Absent</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card card-custom border-0 text-center py-3">
-            <div class="fw-bold fs-2 text-warning">{{ $lateCount }}</div>
-            <div class="small text-muted"><i class="bi bi-clock-fill text-warning me-1"></i>Late</div>
-        </div>
-    </div>
-</div>
+<!-- Profile Content -->
 
 <div class="row g-4">
     <!-- Grades -->
@@ -107,7 +89,7 @@
         </div>
     </div>
 
-    <!-- Enrollments & Recent Attendance -->
+    <!-- Enrollments -->
     <div class="col-md-4">
         <!-- Enrollments -->
         <div class="card card-custom border-0 mb-4">
@@ -126,27 +108,6 @@
                 </li>
                 @empty
                 <li class="list-group-item text-muted text-center small py-3">No enrollment records.</li>
-                @endforelse
-            </ul>
-        </div>
-
-        <!-- Recent Attendance -->
-        <div class="card card-custom border-0">
-            <div class="card-header bg-white border-bottom py-3">
-                <h6 class="fw-bold mb-0 text-secondary d-flex align-items-center gap-2">
-                    <i class="bi bi-calendar3 text-amber icon-md"></i> Recent Attendance
-                </h6>
-            </div>
-            <ul class="list-group list-group-flush">
-                @forelse($attendances->take(8) as $att)
-                <li class="list-group-item px-4 py-2 d-flex justify-content-between align-items-center">
-                    <span class="small text-muted">{{ $att->date->format('M d, Y') }}</span>
-                    <span class="badge badge-soft-{{ $att->status === 'Present' ? 'success' : ($att->status === 'Absent' ? 'danger' : 'warning') }} rounded-pill">
-                        {{ $att->status }}
-                    </span>
-                </li>
-                @empty
-                <li class="list-group-item text-muted text-center small py-3">No attendance logged yet.</li>
                 @endforelse
             </ul>
         </div>

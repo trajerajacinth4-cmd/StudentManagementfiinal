@@ -102,30 +102,6 @@
 <p class="text-muted">No enrollment records available.</p>
 @endif
 
-<div class="section-title">Attendance Log (Last {{ min(30, $attendances->count()) }} records)</div>
-@if($attendances->count() > 0)
-<table>
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($attendances->take(30) as $att)
-        <tr>
-            <td>{{ $att->date->format('F d, Y') }}</td>
-            <td class="{{ $att->status === 'Present' ? 'pass' : ($att->status === 'Absent' ? 'fail' : '') }}">{{ $att->status }}</td>
-            <td class="text-muted">{{ $att->notes ?? '—' }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@else
-<p class="text-muted">No attendance records available.</p>
-@endif
-
 <div class="footer">
     Generated on {{ now()->format('F d, Y \a\t h:i A') }} &mdash; Student Management System
 </div>

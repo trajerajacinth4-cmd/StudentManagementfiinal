@@ -10,7 +10,6 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
-use App\Http\Controllers\AttendanceController;
 
 // Public Welcome Landing Page
 Route::get('/', function () {
@@ -47,7 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::post('semesters/{semester}/activate', [SemesterController::class, 'setActive'])->name('semesters.activate');
     Route::resource('enrollments', EnrollmentController::class)->except(['show', 'edit', 'update']);
     Route::resource('grades', GradeController::class);
-    Route::resource('attendance', AttendanceController::class)->only(['index', 'create', 'store', 'update']);
 
     // Audit Logs
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');

@@ -110,14 +110,6 @@
                     <span class="nav-text text-nowrap">Grades</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ route('attendance.index') }}"
-                   class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 {{ request()->routeIs('attendance.*') ? 'active fw-semibold' : 'text-white-50 hover-bg-light' }}"
-                   data-bs-toggle="tooltip" data-bs-placement="right" title="Attendance">
-                    <i class="bi bi-calendar-check-fill icon-md flex-shrink-0"></i>
-                    <span class="nav-text text-nowrap">Attendance</span>
-                </a>
-            </li>
         </ul>
 
         <!-- System -->

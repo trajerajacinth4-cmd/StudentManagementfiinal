@@ -184,7 +184,7 @@
             @include('partials.topbar')
 
             <!-- Main Body Container -->
-            <main class="container-fluid px-3 px-md-4 py-4 flex-shrink-0">
+            <main class="container-fluid px-3 px-md-4 py-3 flex-shrink-0">
                 <!-- Flash Alerts -->
                 @include('partials.alerts')
 

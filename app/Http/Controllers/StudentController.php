@@ -322,22 +322,14 @@ class StudentController extends Controller
     }
 
     /**
-     * Display full student profile with grades and attendance.
+     * Display full student profile with grades.
      */
     public function show(Student $student)
     {
         $grades = $student->grades()->with(['subject', 'semester'])->latest()->get();
-        $attendances = $student->attendances()->latest()->take(30)->get();
         $enrollments = $student->enrollments()->with(['semester', 'subjects'])->latest()->get();
 
-        $presentCount = $student->attendances()->where('status', 'Present')->count();
-        $absentCount  = $student->attendances()->where('status', 'Absent')->count();
-        $lateCount    = $student->attendances()->where('status', 'Late')->count();
-
-        return view('students.show', compact(
-            'student', 'grades', 'attendances', 'enrollments',
-            'presentCount', 'absentCount', 'lateCount'
-        ));
+        return view('students.show', compact('student', 'grades', 'enrollments'));
     }
 
     /**
@@ -373,16 +365,10 @@ class StudentController extends Controller
     public function profilePdf(Student $student)
     {
         $grades      = $student->grades()->with(['subject', 'semester'])->get();
-        $attendances = $student->attendances()->orderByDesc('date')->get();
         $enrollments = $student->enrollments()->with(['semester', 'subjects'])->get();
 
-        $presentCount = $student->attendances()->where('status', 'Present')->count();
-        $absentCount  = $student->attendances()->where('status', 'Absent')->count();
-        $lateCount    = $student->attendances()->where('status', 'Late')->count();
-
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('students.profile_pdf', compact(
-            'student', 'grades', 'attendances', 'enrollments',
-            'presentCount', 'absentCount', 'lateCount'
+            'student', 'grades', 'enrollments'
         ));
 
         ActivityLog::log('PROFILE_PDF', "Downloaded profile PDF for {$student->name}.");

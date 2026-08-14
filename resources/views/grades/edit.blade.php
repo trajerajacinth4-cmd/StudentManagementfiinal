@@ -4,12 +4,19 @@
 <div class="row justify-content-center"><div class="col-md-6">
 <div class="card card-custom border-0 overflow-hidden">
     <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-        <div class="d-flex align-items-center gap-3">
-            <div class="icon-shape bg-white bg-opacity-20 text-white"><i class="bi bi-pencil-square icon-lg"></i></div>
-            <div>
-                <h4 class="mb-0 fw-bold">Edit Grade</h4>
-                <small class="opacity-75">{{ $grade->student->name }} — {{ $grade->subject->code }}</small>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-shape bg-white bg-opacity-20 text-white"><i class="bi bi-pencil-square icon-lg"></i></div>
+                <div>
+                    <h4 class="mb-0 fw-bold">Edit Grade</h4>
+                    <small class="opacity-75">{{ $grade->student->name }} — {{ $grade->subject->code }}</small>
+                </div>
             </div>
+            <button type="button" class="btn btn-sm btn-outline-light border-0 opacity-90 opacity-100-hover px-3 py-1.5 rounded-pill shadow-none"
+                    onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); } else { window.location.href='{{ route('grades.index') }}'; }"
+                    title="Return to Recent Page">
+                <i class="bi bi-arrow-left me-1"></i> Return
+            </button>
         </div>
     </div>
     <div class="card-body p-4">
@@ -38,7 +45,7 @@
                 </select>
             </div>
             <div class="d-flex justify-content-between pt-3 border-top">
-                <a href="{{ route('grades.index') }}" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancel</a>
+                <a href="{{ route('grades.index') }}" onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancel / Return</a>
                 <button type="submit" class="btn btn-warning px-4 shadow-sm fw-bold"><i class="bi bi-pencil-fill me-1"></i>Update Grade</button>
             </div>
         </form>
